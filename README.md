@@ -3,4 +3,4 @@ The main.m script demonstrates how the model learns optimized interaction weight
 
 The demonstration uses half of the trials from either the Music or Nature experiment for training, and the remaining half for evaluation. Finally, the script visualizes the learned weights and plots the ROC curve to assess the model's performance.
 
-Please make sure to add https://github.com/JHU-LCAP/DREX-model to MATLAB's path before running this code. 
+Please make sure to add https://github.com/JHU-LCAP/DREX-model and the rest of the folders in this repository to MATLAB's path before running this code. 
