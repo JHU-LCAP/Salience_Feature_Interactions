@@ -8,17 +8,17 @@
 % Finally, the script visualizes the learned weights and plots the ROC curve 
 % for the trained model.
 %% Add required files to path
-clc
-clear
-close all
 restoredefaultpath
 addpath('Model')
 addpath('visualization')
 addpath('DREX-model-master')
 
 %% Initialize
+clc
+clear
+close all
 % choose the experiment type: 'nature' or 'music'
-experiment_type = 'nature';
+experiment_type = 'music';
 
 
 threshold = 1:-0.1:0; % threshold for computinig the ROC, the model output (alpha(t)) is compared to this threshold
@@ -28,6 +28,7 @@ fs_new = 10; % sampling rate that the features are downsampled to.
 normalize_threshold = 3; 
 normalize_scale = 10;
 
+n_trials = 128;
 %% Train and test Model on groundtruth data
 
 % file names: name of the files generated thoughout the training process,
@@ -43,7 +44,10 @@ classification_interaction_filename = 'Model/interaction_DREX_music_gt';
 % We are using the groundtruth data for training in this example.
 
 % load acoustic features for the trials we will be training on:
-load(string(experiment_type)+'/all_raw_features_'+string(experiment_type)'+'_testData1.mat');
+for i=1:n_trials
+    load(string(experiment_type)+'/features/raw_features_'+string(experiment_type)'+'_testData1_trial'+string(i)+'.mat');
+    all_raw_features{i} = feature;
+end
 
 % load trial data (conditions, onset times, etc.):
 load(string(experiment_type)+'/testData_block1.mat');
@@ -61,9 +65,12 @@ W = train_model(SoundInfoList, testData_filename, timings_target_filename, inter
 % ----- testing the resulting weights using the remaining half of the trial -----
 
 
-
+disp('Evaluating the model ...')
 % load test data and trial info
-load(string(experiment_type)+'/all_raw_features_'+string(experiment_type)+'_testData2.mat');
+for i=1:n_trials
+    load(string(experiment_type)+'/features/raw_features_'+string(experiment_type)'+'_testData2_trial'+string(i)+'.mat');
+    all_raw_features{i} = feature;
+end
 load(string(experiment_type)+'/testData_block2.mat');
 
 
